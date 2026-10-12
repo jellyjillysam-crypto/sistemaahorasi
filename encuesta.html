@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contesta la encuesta</title>
+<link href="https://fonts.googleapis.com/css2?family=Caprasimo&family=Nunito:wght@600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="encuesta.css"></head><body>
+<header><img src="mi_foto.jpeg" alt="Mi foto"><span>Encuesta UPVM</span><a class="volver" href="inicio.html">← Inicio</a></header><main>
+<section class="tarjeta">
+  <h1>Tu opinión sobre la UPVM</h1>
+  <form action="guardar.php" method="POST">
+
+    <label for="profesores">1. ¿Cómo calificas a tus profesores en general?</label>
+    <select id="profesores" name="profesores" required>
+      <option value="">Elige una opción</option>
+      <option>Excelente</option><option>Bueno</option><option>Regular</option><option>Malo</option>
+    </select>
+
+    <label for="instalacion">2. ¿Qué instalación necesita más mejoras?</label>
+    <select id="instalacion" name="instalacion" required>
+      <option value="">Elige una opción</option>
+      <option>Laboratorios</option><option>Biblioteca</option><option>Cafetería</option>
+      <option>Baños</option><option>Aulas</option><option>Canchas deportivas</option>
+    </select>
+
+    <label for="wifi">3. ¿Qué tan buena es la conexión WiFi del campus?</label>
+    <select id="wifi" name="wifi" required>
+      <option value="">Elige una opción</option>
+      <option>Muy buena</option><option>Aceptable</option><option>Mala</option><option>No hay señal donde estoy</option>
+    </select>
+
+    <span class="pregunta">4. ¿Con qué frecuencia usas la biblioteca?</span>
+    <div class="opciones">
+      <label><input type="radio" name="biblioteca" value="Diario" required> Todos los días</label>
+      <label><input type="radio" name="biblioteca" value="Semanal"> Una vez por semana</label>
+      <label><input type="radio" name="biblioteca" value="Casi nunca"> Casi nunca</label>
+    </div>
+
+    <label for="sugerencia">5. ¿Qué es lo primero que cambiarías en la UPVM?</label>
+    <textarea id="sugerencia" name="sugerencia" rows="4" maxlength="300" required></textarea>
+
+    <p class="centro"><button class="boton" type="submit">Enviar respuestas</button></p>
+  </form>
+</section></main></body></html>

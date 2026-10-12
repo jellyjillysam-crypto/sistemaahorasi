@@ -1,0 +1,38 @@
+/* ===== Variables de diseño ===== */
+:root{
+  --crema:#FBF5E9; --tinta:#33262A; --frambuesa:#B23A57; --salvia:#A9BFA3; --rosa:#F3D3D6;
+  --radio:18px;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; font-family:'Nunito',sans-serif; color:var(--tinta); line-height:1.6;
+  background-color:var(--crema);
+  /* fondo de lunares, como el vestido de la foto */
+  background-image:radial-gradient(var(--tinta) 2.2px,transparent 2.4px);
+  background-size:34px 34px; background-position:0 0;
+}
+body::before{content:"";position:fixed;inset:0;background:var(--crema);opacity:.9;z-index:-1}
+header{display:flex;align-items:center;gap:16px;padding:14px 20px;background:var(--tinta);color:var(--crema)}
+header img{width:64px;height:64px;border-radius:50%;object-fit:cover;object-position:50% 25%;border:3px solid var(--rosa)}
+header span{font-family:'Caprasimo',serif;font-size:1.3rem}
+main{max-width:640px;margin:28px auto;padding:0 16px}
+.tarjeta{background:#fff;border:2px solid var(--tinta);border-radius:var(--radio);padding:28px;box-shadow:6px 6px 0 var(--frambuesa)}
+h1{font-family:'Caprasimo',serif;font-weight:400;font-size:clamp(1.8rem,6vw,2.6rem);line-height:1.15;margin:0 0 12px}
+.foto-grande{width:min(220px,60%);aspect-ratio:1;border-radius:50%;object-fit:cover;object-position:50% 25%;display:block;margin:0 auto 20px;border:4px solid var(--frambuesa)}
+.boton{display:inline-block;background:var(--frambuesa);color:#fff;font:800 1.05rem 'Nunito',sans-serif;padding:14px 28px;border:2px solid var(--tinta);border-radius:999px;cursor:pointer;text-decoration:none;box-shadow:3px 3px 0 var(--tinta)}
+.boton:hover,.boton:focus-visible{transform:translate(-1px,-1px);outline:3px solid var(--salvia)}
+label,.pregunta{display:block;font-weight:800;margin:20px 0 6px}
+select,textarea{width:100%;padding:12px;font:inherit;border:2px solid var(--tinta);border-radius:12px;background:var(--crema)}
+.opciones label{display:flex;gap:10px;align-items:center;font-weight:600;margin:6px 0}
+.opciones input{width:20px;height:20px;accent-color:var(--frambuesa)}
+.centro{text-align:center}
+/* regalo */
+#caja{font-size:7rem;background:none;border:0;cursor:pointer;line-height:1}
+#caja.abierta{animation:salto .5s}
+@keyframes salto{50%{transform:translateY(-24px) rotate(-8deg)}}
+#premio{display:none;margin-top:16px;padding:18px;border:3px dashed var(--frambuesa);border-radius:var(--radio);background:var(--rosa)}
+@media (prefers-reduced-motion:reduce){#caja.abierta{animation:none}}
+@media (max-width:480px){.tarjeta{padding:20px}header span{font-size:1.05rem}}
+/* enlace de regreso a la portada */
+.volver{margin-left:auto;color:var(--crema);font-weight:800;text-decoration:none;border:2px solid var(--rosa);border-radius:999px;padding:6px 14px;white-space:nowrap}
+.volver:hover,.volver:focus-visible{background:var(--rosa);color:var(--tinta);outline:none}

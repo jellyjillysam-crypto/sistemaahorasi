@@ -1,0 +1,14 @@
+Options -Indexes
+
+# Archivos internos: no se pueden abrir desde el navegador
+<FilesMatch "^(config|config\.local|functions)\.php$">
+    Require all denied
+</FilesMatch>
+<FilesMatch "\.(sql|md)$">
+    Require all denied
+</FilesMatch>
+<FilesMatch "^(Dockerfile|\.gitignore)$">
+    Require all denied
+</FilesMatch>
+
+DirectoryIndex inicio.html index.php
