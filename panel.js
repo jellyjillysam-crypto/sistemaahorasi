@@ -67,6 +67,25 @@ function mostrarKpis(r) {
     });
 }
 
+// Nombres legibles para las páginas y secciones (el tracker guarda la ruta tal cual).
+const nombresPagina = {
+    '/': 'Menú principal',
+    '/inicio.php': 'Menú principal',
+    '/index.php': 'Sistema de ventas · Resumen',
+    '/index.php#inicio': 'Sistema de ventas · Resumen',
+    '/index.php#usuarios': 'Sistema de ventas · Usuarios',
+    '/index.php#productos': 'Sistema de ventas · Productos',
+    '/index.php#ventas': 'Sistema de ventas · Ventas',
+    '/index.php#video': 'Video',
+    '/encuesta.html': 'Encuesta UPVM',
+    '/regalo.html': 'Encuesta · Gracias',
+    '/bienvenida.php': 'Mi cuenta',
+    '/dashboard.php': 'Métricas',
+    '/login.php': 'Iniciar sesión',
+    '/registro.php': 'Registro',
+};
+const nombrePagina = (ruta) => nombresPagina[ruta] ?? ruta;
+
 const nombresTipo = { vista: '👁 vista', clic: '🖱 clic', tiempo: '⏱ tiempo' };
 
 async function cargar() {
@@ -78,16 +97,20 @@ async function cargar() {
 
         mostrarKpis(datos.resumen);
 
+        llenarTabla('tabla-menu', ['Opción del menú', 'Clics', 'Usuarios distintos', 'Última vez'], datos.menu,
+            (f) => [f.elemento, f.clics, f.usuarios, f.ultima]);
+        agregarBarras('tabla-menu', 1, datos.menu, 'clics');
+
         llenarTabla('tabla-recientes', ['Hora', 'Quién', 'Qué', 'Página', 'Detalle'], datos.recientes,
-            (f) => [f.hora, f.nombre, nombresTipo[f.tipo], f.pagina,
+            (f) => [f.hora, f.nombre, nombresTipo[f.tipo], nombrePagina(f.pagina),
                     f.tipo === 'clic' ? f.elemento : f.tipo === 'tiempo' ? duracion(f.segundos) : '']);
 
         llenarTabla('tabla-paginas', ['Página', 'Vistas', 'Clics', 'Tiempo total'], datos.paginas,
-            (f) => [f.pagina, f.vistas, f.clics, duracion(f.segundos)]);
+            (f) => [nombrePagina(f.pagina), f.vistas, f.clics, duracion(f.segundos)]);
         agregarBarras('tabla-paginas', 1, datos.paginas, 'vistas');
 
         llenarTabla('tabla-clics', ['Elemento', 'Página', 'Clics'], datos.clics,
-            (f) => [f.elemento, f.pagina, f.total]);
+            (f) => [f.elemento, nombrePagina(f.pagina), f.total]);
         agregarBarras('tabla-clics', 2, datos.clics, 'total');
 
         llenarTabla('tabla-usuarios', ['Nombre', 'Carrera', 'Sesiones', 'Vistas', 'Clics', 'Tiempo', 'Última actividad'],

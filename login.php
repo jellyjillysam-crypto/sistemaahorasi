@@ -2,7 +2,7 @@
 require __DIR__ . '/functions.php';
 
 if (!empty($_SESSION['usuario_id'])) {
-    header('Location: bienvenida.php');
+    header('Location: inicio.php');
     exit;
 }
 
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ->execute([$usuario['id_usuario'], $visitante]);
         }
 
-        header('Location: bienvenida.php');
+        header('Location: inicio.php');
         exit;
     }
     $error = 'Correo o contraseña incorrectos.';
@@ -69,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
 
         <p>¿No tienes cuenta? <a href="registro.php">Regístrate</a></p>
-        <p><a href="inicio.html">← Volver al inicio</a></p>
+        <p><a href="inicio.php">← Volver al inicio</a></p>
     </main>
     <script src="tracker.js"></script>
 </body>

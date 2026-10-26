@@ -181,7 +181,7 @@ function selected(bool $value): string { return $value ? ' selected' : ''; }
 </head>
 <body>
 <div data-role="page" id="inicio">
-    <div data-role="header"><a href="inicio.html" data-ajax="false" data-icon="home">Portada</a><h1 class="brand">Sistema de ventas</h1></div>
+    <div data-role="header"><a href="inicio.php" data-ajax="false" data-icon="home">Portada</a><h1 class="brand">Sistema de ventas</h1></div>
     <div class="hero"><div class="content hero-inner"><div><p class="eyebrow">Hola Mundo</p><h1>Panel de control</h1><p>Administra usuarios, productos y ventas desde una interfaz ligera compatible con hosting compartido.</p></div><img class="profile-photo" src="mi_foto.jpeg" alt="Foto personal"></div></div>
     <main class="content">
         <?php if ($flash): ?><div class="notice<?= $flash['type'] === 'error' ? ' error' : '' ?>"><?= e($flash['message']) ?></div><?php endif; ?>
@@ -213,8 +213,8 @@ function selected(bool $value): string { return $value ? ' selected' : ''; }
             </div>
         </section>
         <div class="stats"><div class="stat"><strong><?= count($usuarios) ?></strong><span>Usuarios registrados</span></div><div class="stat"><strong><?= count($productos) ?></strong><span>Productos registrados</span></div><div class="stat"><strong><?= count($ventas) ?></strong><span>Ventas registradas</span></div></div>
-        <div data-role="navbar"><ul><li><a href="#usuarios" class="ui-btn primary">Usuarios</a></li><li><a href="#productos" class="ui-btn primary">Productos</a></li><li><a href="#ventas" class="ui-btn primary">Ventas</a></li><li><a href="#video" class="ui-btn primary">Video</a></li></ul></div>
-        <p style="text-align:center"><a href="encuesta.html" data-ajax="false" class="ui-btn ui-btn-inline">📝 Contestar la encuesta UPVM</a></p>
+        <div data-role="navbar"><ul><li><a href="#usuarios" class="ui-btn primary" data-track="Menú ventas: Usuarios">Usuarios</a></li><li><a href="#productos" class="ui-btn primary" data-track="Menú ventas: Productos">Productos</a></li><li><a href="#ventas" class="ui-btn primary" data-track="Menú ventas: Ventas">Ventas</a></li><li><a href="#video" class="ui-btn primary" data-track="Menú ventas: Video">Video</a></li></ul></div>
+        <p style="text-align:center"><a href="encuesta.html" data-ajax="false" data-track="Menú ventas: Encuesta" class="ui-btn ui-btn-inline">📝 Contestar la encuesta UPVM</a></p>
     </main>
 </div>
 

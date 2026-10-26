@@ -2,10 +2,10 @@
 
 Aplicacion PHP + MySQL + jQuery Mobile publicada en Render, con la base de datos en Railway.
 
-- **Portada:** `inicio.html`
+- **Menu principal:** `inicio.php` (pide iniciar sesion; `/` redirige al login si no hay sesion)
 - **Sistema de ventas (CRUD):** `index.php` (tablas `usuarios`, `productos`, `ventas`)
 - **Encuesta:** `encuesta.html` -> `guardar.php` -> `regalo.html` (tabla `respuestas`)
-- **Login y metricas:** `registro.php`, `login.php`, `bienvenida.php`, `cursos.php`, `dashboard.php` (tablas `usuarios` y `eventos`)
+- **Login y metricas:** `registro.php`, `login.php`, `bienvenida.php` (Mi cuenta), `dashboard.php` (tablas `usuarios` y `eventos`)
 
 ## Base de datos (Railway)
 
@@ -24,6 +24,7 @@ Todas las tablas viven en la misma base de datos de Railway:
   `visitante_id` y `analitica` y manda vistas, clics y tiempo a `eventos.php`. Al iniciar sesion, lo que ese
   navegador hizo como anonimo se asocia al usuario.
 - `dashboard.php` + `panel.js` consultan `metricas.php` cada 5 s (requiere sesion).
+- Las metricas registran con que opcion del menu se interactua (`Menú: ...`, `Menú ventas: ...`) y cada seccion de `index.php` cuenta como su propia pagina.
 - No se registra lo que se escribe en los formularios.
 
 ## Variables de entorno (Render)
@@ -50,7 +51,7 @@ return [
 ];
 ```
 
-2. Ejecuta `php -S localhost:8000` dentro de esta carpeta y abre `http://localhost:8000/inicio.html`.
+2. Ejecuta `php -S localhost:8000` dentro de esta carpeta y abre `http://localhost:8000/`.
 
 ## Publicar en Render
 

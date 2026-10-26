@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
 
         <p>¿Ya tienes cuenta? <a href="login.php">Inicia sesión</a></p>
-        <p><a href="inicio.html">← Volver al inicio</a></p>
+        <p><a href="inicio.php">← Volver al inicio</a></p>
     </main>
     <script src="registro.js"></script>
     <script src="tracker.js"></script>

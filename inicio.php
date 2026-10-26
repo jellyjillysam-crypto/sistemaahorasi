@@ -1,0 +1,69 @@
+<?php
+require __DIR__ . '/functions.php';
+requireLogin(); // el menu solo se abre con sesion: si no hay, manda al login
+?>
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inicio</title>
+<link href="https://fonts.googleapis.com/css2?family=Caprasimo&family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#54152f;--muted:#7d5266;--brand:#b8326a;--paper:#fff0f6;--line:#f1c7d8}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font:1rem/1.6 'DM Sans',system-ui,sans-serif;color:var(--ink);
+  background:var(--paper) radial-gradient(var(--line) 2.2px,transparent 2.4px) 0 0/34px 34px}
+.wrap{max-width:980px;margin:0 auto;padding:40px 18px}
+.saludo{text-align:center;margin-bottom:32px}
+.saludo img{width:140px;height:140px;border-radius:50%;object-fit:cover;object-position:55% 30%;border:5px solid #fff;box-shadow:0 8px 20px rgba(143,40,82,.25)}
+h1{font:400 clamp(2rem,6vw,3rem)/1.15 'Caprasimo',serif;margin:16px 0 8px}
+.saludo p{margin:0;color:var(--muted)}
+.opciones{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.card{display:flex;flex-direction:column;gap:8px;padding:26px;background:#fff;color:inherit;text-decoration:none;
+  border:2px solid var(--ink);border-radius:18px;box-shadow:6px 6px 0 var(--brand);transition:transform .15s}
+.card:hover,.card:focus-visible{transform:translate(-2px,-2px);outline:3px solid var(--brand);outline-offset:3px}
+.card .icono{font-size:2.6rem;line-height:1}
+.card h2{font:400 1.6rem 'Caprasimo',serif;margin:0}
+.card p{margin:0;color:var(--muted);flex:1}
+.card .ir{font-weight:700;color:var(--brand)}
+.barra{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:6px 18px;font-size:.9rem;margin-bottom:12px}
+.barra a{color:var(--brand);font-weight:700;text-decoration:none}
+.barra a:hover{text-decoration:underline}
+footer{text-align:center;margin-top:36px;color:var(--muted);font-size:.9rem}
+@media (prefers-reduced-motion:reduce){.card{transition:none}}
+</style></head><body>
+<main class="wrap">
+  <nav class="barra" aria-label="Cuenta">
+    <a href="bienvenida.php" data-track="Cuenta: Mi cuenta">Mi cuenta</a>
+    <a href="dashboard.php" data-track="Cuenta: Métricas">Métricas</a>
+    <a href="#" id="cambiar-privacidad">Privacidad</a>
+    <a href="logout.php" data-track="Cuenta: Salir">Salir</a>
+  </nav>
+  <section class="saludo">
+    <img src="mi_foto.jpeg" alt="Foto personal">
+    <h1>¡Hola, <?= e($_SESSION['nombre'] ?? '') ?>!</h1>
+    <p>¿A dónde vamos? Elige una opción.</p>
+  </section>
+  <nav class="opciones" aria-label="Secciones del sitio">
+    <a class="card" href="index.php" data-track="Menú: Sistema de ventas">
+      <span class="icono" aria-hidden="true">🛒</span>
+      <h2>Sistema de ventas</h2>
+      <p>Administra usuarios, productos y ventas. Incluye mapa de ubicación y cálculo de totales.</p>
+      <span class="ir">Entrar al panel →</span>
+    </a>
+    <a class="card" href="encuesta.html" data-track="Menú: Encuesta UPVM">
+      <span class="icono" aria-hidden="true">📝</span>
+      <h2>Encuesta UPVM</h2>
+      <p>5 preguntas rápidas sobre profesores e instalaciones. Es anónima y tarda menos de un minuto.</p>
+      <span class="ir">Contestar la encuesta →</span>
+    </a>
+    <a class="card" href="index.php#video" data-track="Menú: Video">
+      <span class="icono" aria-hidden="true">🎬</span>
+      <h2>Video</h2>
+      <p>Mira el video directamente aquí, sin salir del sitio.</p>
+      <span class="ir">Ver el video →</span>
+    </a>
+  </nav>
+  <footer>Universidad Politécnica del Valle de México</footer>
+</main>
+<script src="tracker.js"></script>
+</body></html>

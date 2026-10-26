@@ -50,6 +50,17 @@ $clics = consultar($pdo, "
     ORDER BY total DESC
     LIMIT 10");
 
+// Opciones del menú (inicio.php y barra del sistema de ventas): los clics llevan nombre fijo "Menú...".
+$menu = consultar($pdo, "
+    SELECT elemento,
+           COUNT(*) AS clics,
+           COUNT(DISTINCT usuario_id) AS usuarios,
+           MAX(creado_en) AS ultima
+    FROM eventos
+    WHERE tipo = 'clic' AND elemento LIKE 'Menú%'
+    GROUP BY elemento
+    ORDER BY clics DESC");
+
 // Aquí se une la analítica con los datos del registro del ejercicio LOGIN.
 $usuarios = consultar($pdo, "
     SELECT COALESCE(u.nombre, '(anónimos)') AS nombre,
@@ -84,4 +95,4 @@ $recientes = consultar($pdo, "
     ORDER BY e.id DESC
     LIMIT 15");
 
-echo json_encode(compact('resumen', 'paginas', 'clics', 'usuarios', 'carreras', 'recientes'), JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE);
+echo json_encode(compact('resumen', 'menu', 'paginas', 'clics', 'usuarios', 'carreras', 'recientes'), JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE);

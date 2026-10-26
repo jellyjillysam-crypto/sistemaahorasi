@@ -88,23 +88,49 @@
             sessionStorage.setItem('sesion_id', sesionId);
         }
 
+        // Página actual. El sistema de ventas (index.php) es de una sola página con secciones
+        // (#usuarios, #productos, #ventas, #video): cada sección cuenta como su propia "página".
+        function paginaActual() {
+            const seccion = /^#[a-z]+$/i.test(location.hash) ? location.hash : '';
+            return location.pathname + seccion;
+        }
+        let pagina = paginaActual();
+
         // sendBeacon garantiza el envío aunque el usuario cambie de página o cierre la pestaña.
         function enviar(tipo, extra = {}) {
             const evento = {
                 tipo,
                 visitante_id: visitanteId,
                 sesion_id: sesionId,
-                pagina: location.pathname,
+                pagina,
                 ...extra
             };
             navigator.sendBeacon(API, JSON.stringify(evento));
         }
 
+        // Tiempo activo: solo cuenta mientras la pestaña está visible.
+        let inicio = Date.now();
+        function cerrarTiempo() {
+            const segundos = Math.round((Date.now() - inicio) / 1000);
+            if (segundos > 0) enviar('tiempo', { segundos });
+            inicio = Date.now();
+        }
+
         // a) Vista de página
         enviar('vista');
 
-        // b) Clics en enlaces y botones.
-        //    data-track da un nombre fijo; si no hay, se usa el texto visible.
+        // b) Cambio de sección dentro de index.php: cierra el tiempo de la anterior y abre la nueva.
+        window.addEventListener('hashchange', () => {
+            const nueva = paginaActual();
+            if (nueva === pagina) return;
+            if (document.visibilityState === 'visible') cerrarTiempo();
+            pagina = nueva;
+            inicio = Date.now();
+            enviar('vista');
+        });
+
+        // c) Clics en enlaces y botones.
+        //    data-track da un nombre fijo (p. ej. "Menú: Encuesta UPVM"); si no hay, se usa el texto visible.
         document.addEventListener('click', (evento) => {
             const el = evento.target.closest('a, button, [data-track]');
             if (!el || el.closest('.aviso-cookies')) return;
@@ -112,12 +138,9 @@
             enviar('clic', { elemento: nombre });
         });
 
-        // c) Tiempo activo: solo cuenta mientras la pestaña está visible.
-        let inicio = Date.now();
         document.addEventListener('visibilitychange', () => {
             if (document.visibilityState === 'hidden') {
-                const segundos = Math.round((Date.now() - inicio) / 1000);
-                if (segundos > 0) enviar('tiempo', { segundos });
+                cerrarTiempo();
             } else {
                 inicio = Date.now();
             }

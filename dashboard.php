@@ -21,6 +21,9 @@ requireLogin();
 
         <section class="kpis" id="kpis"></section>
 
+        <h2>Opciones del menú</h2>
+        <div class="tabla"><table id="tabla-menu"></table></div>
+
         <h2>Actividad reciente</h2>
         <div class="tabla"><table id="tabla-recientes"></table></div>
 

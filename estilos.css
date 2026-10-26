@@ -68,18 +68,6 @@ button:hover, .boton:hover { background: #8f2852; }
 .menu a { color: #b8326a; text-decoration: none; }
 .menu a:hover { text-decoration: underline; }
 
-/* Catálogo de cursos */
-.cursos {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 16px;
-}
-.curso { padding: 16px; border: 1px solid #e2e8f0; border-radius: 10px; }
-.curso h2 { margin: 0 0 6px; font-size: 1.05rem; }
-.curso p { margin: 0 0 10px; font-size: .9rem; }
-.duracion { color: #64748b; }
-.marcado, .marcado:hover { background: #16a34a; }
-
 /* Panel de métricas */
 .nota { color: #64748b; font-size: .85rem; }
 h2 { font-size: 1.1rem; margin-top: 28px; }

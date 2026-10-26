@@ -4,9 +4,9 @@ FROM php:8.3-apache
 # 2. Extensiones para conectarse a MySQL (mysqli y PDO)
 RUN docker-php-ext-install mysqli pdo_mysql
 
-# 3. Apache: leer .htaccess y abrir inicio.html como pagina principal
+# 3. Apache: leer .htaccess y abrir inicio.php como pagina principal
 RUN sed -i 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf \
- && echo "DirectoryIndex inicio.html index.php" > /etc/apache2/conf-available/portada.conf \
+ && echo "DirectoryIndex inicio.php index.php" > /etc/apache2/conf-available/portada.conf \
  && a2enconf portada
 
 # 4. Copiamos el proyecto a la carpeta publica de Apache

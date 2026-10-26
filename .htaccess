@@ -11,4 +11,4 @@ Options -Indexes
     Require all denied
 </FilesMatch>
 
-DirectoryIndex inicio.html index.php
+DirectoryIndex inicio.php index.php
