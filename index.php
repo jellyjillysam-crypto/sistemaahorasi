@@ -385,5 +385,6 @@ function selected(bool $value): string { return $value ? ' selected' : ''; }
     $(document).on('pageshow', '#inicio', iniciarMapa);
 })();
 </script>
+<script src="tracker.js"></script>
 </body>
 </html>

@@ -13,10 +13,33 @@ CREATE TABLE usuarios (
     nombre       VARCHAR(100) NOT NULL,
     email        VARCHAR(150) NOT NULL UNIQUE,
     telefono     VARCHAR(20),
+    -- Datos de login (NULL en clientes que no tienen cuenta con acceso):
+    password_hash VARCHAR(255) NULL,
+    sexo         ENUM('Hombre', 'Mujer', 'Otro') NULL,
+    edad         TINYINT UNSIGNED NULL,
+    carrera      VARCHAR(100) NULL,
     activo       TINYINT(1)   NOT NULL DEFAULT 1,
     created_at   TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at   TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT pk_usuarios PRIMARY KEY (id_usuario)
+);
+
+-- ------------------------------------------------------------
+-- TABLA: eventos (metricas: vistas, clics y tiempo)
+-- ------------------------------------------------------------
+CREATE TABLE eventos (
+    id           INT AUTO_INCREMENT PRIMARY KEY,
+    visitante_id CHAR(36)     NOT NULL,
+    sesion_id    CHAR(36)     NOT NULL,
+    usuario_id   INT          NULL,
+    tipo         ENUM('vista', 'clic', 'tiempo') NOT NULL,
+    pagina       VARCHAR(200) NOT NULL,
+    elemento     VARCHAR(100) NULL,
+    segundos     SMALLINT UNSIGNED NULL,
+    creado_en    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_evento_usuario FOREIGN KEY (usuario_id) REFERENCES usuarios (id_usuario) ON DELETE SET NULL,
+    INDEX (visitante_id),
+    INDEX (sesion_id)
 );
 
 -- ------------------------------------------------------------

@@ -8,6 +8,17 @@ if (PHP_SAPI === 'cli-server') {
     error_reporting(E_ALL);
 }
 
+// Cookie de sesion (PHPSESSID): no visible para JavaScript y solo por HTTPS cuando el sitio lo usa
+// (Render termina el HTTPS en su proxy y manda X-Forwarded-Proto).
+$esHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+    || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https');
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path'     => '/',
+    'secure'   => $esHttps,
+    'httponly' => true,
+    'samesite' => 'Lax',
+]);
 session_start();
 
 // config.php lee las variables de entorno (Render). Si existe config.local.php
@@ -73,7 +84,9 @@ function csrfToken(): string
 
 function verifyCsrf(): void
 {
-    if (!hash_equals($_SESSION['csrf'] ?? '', $_POST['csrf'] ?? '')) {
+    $esperado = (string) ($_SESSION['csrf'] ?? '');
+    // Sin token en la sesion ('' == '') no debe pasar la validacion.
+    if ($esperado === '' || !hash_equals($esperado, (string) ($_POST['csrf'] ?? ''))) {
         http_response_code(419);
         exit('Solicitud no valida. Recarga la pagina e intenta de nuevo.');
     }
@@ -104,4 +117,15 @@ function postText(string $key, int $maxLength): string
         throw new InvalidArgumentException("El campo {$key} es obligatorio y no debe superar {$maxLength} caracteres.");
     }
     return $value;
+}
+
+// ---------- Login (usa la misma tabla `usuarios` del sistema de ventas) ----------
+
+/** Paginas protegidas: si no hay sesion, manda al login. */
+function requireLogin(): void
+{
+    if (empty($_SESSION['usuario_id'])) {
+        header('Location: login.php');
+        exit;
+    }
 }

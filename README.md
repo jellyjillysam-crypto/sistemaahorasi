@@ -5,13 +5,26 @@ Aplicacion PHP + MySQL + jQuery Mobile publicada en Render, con la base de datos
 - **Portada:** `inicio.html`
 - **Sistema de ventas (CRUD):** `index.php` (tablas `usuarios`, `productos`, `ventas`)
 - **Encuesta:** `encuesta.html` -> `guardar.php` -> `regalo.html` (tabla `respuestas`)
+- **Login y metricas:** `registro.php`, `login.php`, `bienvenida.php`, `cursos.php`, `dashboard.php` (tablas `usuarios` y `eventos`)
 
 ## Base de datos (Railway)
 
 Todas las tablas viven en la misma base de datos de Railway:
 
-1. Importa `Sistema.sql` (sin las lineas `CREATE DATABASE` / `USE`).
+1. Importa `Sistema.sql` (sin las lineas `CREATE DATABASE` / `USE`). Ya incluye las columnas de login en `usuarios` y la tabla `eventos`.
 2. Importa `base_datos.sql` (tabla `respuestas`).
+3. **Si ya tenias la base creada**, no vuelvas a importar `Sistema.sql`: ejecuta una sola vez `migracion_login_metricas.sql`
+   (agrega `password_hash`, `sexo`, `edad`, `carrera` a `usuarios` y crea `eventos`).
+
+## Login y metricas
+
+- Una sola tabla `usuarios`: quien se registra en `registro.php` tambien aparece en el CRUD de ventas.
+  Los usuarios creados desde el CRUD no tienen contrasena, asi que no pueden iniciar sesion.
+- `tracker.js` (incluido en todas las paginas) muestra el aviso de cookies; si se acepta, guarda las cookies
+  `visitante_id` y `analitica` y manda vistas, clics y tiempo a `eventos.php`. Al iniciar sesion, lo que ese
+  navegador hizo como anonimo se asocia al usuario.
+- `dashboard.php` + `panel.js` consultan `metricas.php` cada 5 s (requiere sesion).
+- No se registra lo que se escribe en los formularios.
 
 ## Variables de entorno (Render)
 
