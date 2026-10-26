@@ -51,6 +51,60 @@ try {
     exit('No se pudo conectar con la base de datos. Revisa las variables de entorno (DB_HOST, DB_PORT, DB_USER, DB_PASS, DB_NAME).');
 }
 
+/**
+ * Crea las columnas de login en `usuarios` y la tabla `eventos` si todavia no existen
+ * (equivale a migracion_login_metricas.sql). Es seguro repetirlo: solo agrega lo que falta.
+ * Se revisa una vez por sesion de navegador.
+ */
+function asegurarEsquema(PDO $pdo): void
+{
+    if (!empty($_SESSION['esquema_ok'])) {
+        return;
+    }
+    try {
+        $existentes = array_map('strtolower', $pdo->query(
+            "SELECT COLUMN_NAME FROM information_schema.COLUMNS
+             WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'usuarios'"
+        )->fetchAll(PDO::FETCH_COLUMN));
+
+        $nuevas = [
+            'password_hash' => 'VARCHAR(255) NULL',
+            'sexo'          => "ENUM('Hombre', 'Mujer', 'Otro') NULL",
+            'edad'          => 'TINYINT UNSIGNED NULL',
+            'carrera'       => 'VARCHAR(100) NULL',
+        ];
+        $agregar = [];
+        foreach ($nuevas as $columna => $definicion) {
+            if (!in_array($columna, $existentes, true)) {
+                $agregar[] = "ADD COLUMN {$columna} {$definicion}";
+            }
+        }
+        if ($agregar) {
+            $pdo->exec('ALTER TABLE usuarios ' . implode(', ', $agregar));
+        }
+
+        $pdo->exec("CREATE TABLE IF NOT EXISTS eventos (
+            id           INT AUTO_INCREMENT PRIMARY KEY,
+            visitante_id CHAR(36)     NOT NULL,
+            sesion_id    CHAR(36)     NOT NULL,
+            usuario_id   INT          NULL,
+            tipo         ENUM('vista', 'clic', 'tiempo') NOT NULL,
+            pagina       VARCHAR(200) NOT NULL,
+            elemento     VARCHAR(100) NULL,
+            segundos     SMALLINT UNSIGNED NULL,
+            creado_en    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            CONSTRAINT fk_evento_usuario FOREIGN KEY (usuario_id) REFERENCES usuarios (id_usuario) ON DELETE SET NULL,
+            INDEX (visitante_id),
+            INDEX (sesion_id)
+        )");
+        $_SESSION['esquema_ok'] = true;
+    } catch (PDOException $exception) {
+        error_log('Esquema: ' . $exception->getMessage());
+    }
+}
+
+asegurarEsquema($pdo);
+
 function e( $value): string
 {
     return htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
